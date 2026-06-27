@@ -1419,6 +1419,14 @@ select option {
   margin: 0;
 }
 
+/* ─── Mobile bottom tab bar + booking sheet (hidden on desktop) ─── */
+
+.mobileTabBar,
+.bookingOverlay,
+.bookingClose {
+  display: none;
+}
+
 /* ─── Responsive ─── */
 
 @media (max-width: 1080px) {
@@ -1598,6 +1606,131 @@ select option {
   .adminActions .dangerButton {
     min-height: 36px !important;
     width: 100%;
+  }
+}
+
+/* ─── Phone: bottom tab bar + booking sheet ─── */
+
+@media (max-width: 720px) {
+  /* Free the header — show only logo + name */
+  .topNavLinks {
+    display: none;
+  }
+
+  /* Leave room for the fixed bottom tab bar */
+  .shell {
+    padding-bottom: 88px;
+  }
+
+  /* Bottom tab bar */
+  .mobileTabBar {
+    align-items: stretch;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--line);
+    bottom: 0;
+    box-shadow: 0 -4px 20px rgba(16, 24, 40, 0.06);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    left: 0;
+    padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px));
+    position: fixed;
+    right: 0;
+    z-index: 50;
+  }
+
+  .mobileTab {
+    align-items: center;
+    border-radius: 12px;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    font-size: 0.62rem;
+    font-weight: 700;
+    gap: 4px;
+    justify-content: center;
+    letter-spacing: 0.01em;
+    padding: 7px 4px;
+    text-align: center;
+  }
+
+  .mobileTab svg {
+    height: 21px;
+    width: 21px;
+  }
+
+  .mobileTab.active {
+    color: var(--primary-strong);
+  }
+
+  .tempahTab {
+    color: var(--primary-strong);
+  }
+
+  /* Booking form becomes a bottom sheet */
+  .bookingCard {
+    display: none;
+  }
+
+  .bookingCard.open {
+    animation: sheetUp 280ms cubic-bezier(0.2, 0.7, 0.3, 1);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    bottom: 0;
+    box-shadow: 0 -12px 44px rgba(16, 24, 40, 0.28);
+    display: block;
+    left: 0;
+    margin: 0;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: fixed;
+    right: 0;
+    z-index: 60;
+  }
+
+  .bookingOverlay.open {
+    animation: fadeIn 200ms ease;
+    background: rgba(15, 23, 42, 0.5);
+    display: block;
+    inset: 0;
+    position: fixed;
+    z-index: 55;
+  }
+
+  .bookingClose {
+    align-items: center;
+    background: var(--surface-soft);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 1.3rem;
+    height: 34px;
+    justify-content: center;
+    line-height: 1;
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    width: 34px;
+    z-index: 1;
+  }
+}
+
+@keyframes sheetUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 

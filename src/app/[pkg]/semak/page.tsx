@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MobileTabBar } from "../../../components/MobileTabBar";
 import { SemakForm } from "../../../components/SemakForm";
 import { loadPkg } from "../../../lib/pkg";
 
@@ -37,6 +38,8 @@ export default async function SemakPage({ params }: { params: { pkg: string } })
       <div className="lookupShell">
         <SemakForm pkgId={params.pkg} />
       </div>
+
+      <MobileTabBar active="semak" pkgId={params.pkg} />
     </main>
   );
 }

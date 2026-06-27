@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BookingForm } from "../../components/BookingForm";
 import { CalendarBoard } from "../../components/CalendarBoard";
+import { MobileTabBar } from "../../components/MobileTabBar";
 import { getSlotBooking } from "../../lib/booking-rules";
 import {
   addDays,
@@ -233,6 +234,8 @@ export default async function PkgHomePage({
           </section>
         </>
       ) : null}
+
+      <MobileTabBar active="jadual" pkgId={pkgId} />
     </main>
   );
 }
