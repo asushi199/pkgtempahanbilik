@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AdminBookingTable } from "../../../components/AdminBookingTable";
+import { AdminTopNav } from "../../../components/AdminTopNav";
 import { isAdminSession } from "../../../lib/admin-session";
 import { loadPkg } from "../../../lib/pkg";
 import { listAllBookings, listRooms } from "../../../lib/repository";
@@ -48,6 +49,7 @@ export default async function AdminPage({
 
   return (
     <main className="shell">
+      <AdminTopNav pkg={pkg} pkgId={pkgId} />
       <section className="adminTop">
         <div>
           <p className="eyebrow">Panel Admin · {pkg.name}</p>
@@ -60,9 +62,6 @@ export default async function AdminPage({
           </Link>
           <Link className="ghostButton" href={`${base}/admin/settings`}>
             Tetapan
-          </Link>
-          <Link className="ghostButton" href={base}>
-            Jadual awam
           </Link>
           <form action={logoutAction}>
             <input name="pkg" type="hidden" value={pkgId} />

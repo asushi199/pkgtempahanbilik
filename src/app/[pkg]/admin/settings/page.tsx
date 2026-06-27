@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { AdminTopNav } from "../../../../components/AdminTopNav";
 import { isAdminSession } from "../../../../lib/admin-session";
 import { loadPkg } from "../../../../lib/pkg";
 import { getPkg } from "../../../../lib/repository";
@@ -26,6 +27,7 @@ export default async function AdminSettingsPage({
 
   return (
     <main className="shell">
+      <AdminTopNav pkg={pkg} pkgId={pkgId} />
       <section className="adminTop">
         <div>
           <p className="eyebrow">Tetapan · {pkg.name}</p>
@@ -36,8 +38,8 @@ export default async function AdminSettingsPage({
           <Link className="ghostButton" href={`${base}/admin`}>
             Tempahan
           </Link>
-          <Link className="ghostButton" href={base}>
-            Jadual awam
+          <Link className="ghostButton" href={`${base}/admin/rooms`}>
+            Urus Bilik
           </Link>
         </div>
       </section>

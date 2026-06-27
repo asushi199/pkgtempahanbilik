@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { AdminTopNav } from "../../../../components/AdminTopNav";
 import { RoomManager } from "../../../../components/RoomManager";
 import { isAdminSession } from "../../../../lib/admin-session";
 import { loadPkg } from "../../../../lib/pkg";
@@ -45,6 +46,7 @@ export default async function AdminRoomsPage({
 
   return (
     <main className="shell">
+      <AdminTopNav pkg={pkg} pkgId={pkgId} />
       <section className="adminTop">
         <div>
           <p className="eyebrow">Pengurusan Bilik · {pkg.name}</p>
@@ -55,8 +57,8 @@ export default async function AdminRoomsPage({
           <Link className="ghostButton" href={`${base}/admin`}>
             Tempahan
           </Link>
-          <Link className="ghostButton" href={base}>
-            Jadual awam
+          <Link className="ghostButton" href={`${base}/admin/settings`}>
+            Tetapan
           </Link>
         </div>
       </section>
