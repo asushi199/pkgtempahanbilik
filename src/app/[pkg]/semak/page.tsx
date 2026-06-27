@@ -1,11 +1,14 @@
 import Link from "next/link";
+import { AdminBar } from "../../../components/AdminBar";
 import { MobileTabBar } from "../../../components/MobileTabBar";
 import { SemakForm } from "../../../components/SemakForm";
+import { isAdminSession } from "../../../lib/admin-session";
 import { loadPkg } from "../../../lib/pkg";
 
 export default async function SemakPage({ params }: { params: { pkg: string } }) {
   const pkg = (await loadPkg(params.pkg))!;
   const base = `/${params.pkg}`;
+  const isAdmin = isAdminSession(params.pkg);
 
   return (
     <main className="shell compactShell">
@@ -18,6 +21,8 @@ export default async function SemakPage({ params }: { params: { pkg: string } })
           <Link href={base}>Jadual</Link>
         </div>
       </nav>
+
+      {isAdmin ? <AdminBar pkgId={params.pkg} /> : null}
 
       <section className="hero compactHero">
         <div>

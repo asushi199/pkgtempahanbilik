@@ -1,16 +1,26 @@
 import Link from "next/link";
 
-type Tab = "jadual" | "semak" | "admin";
+type Tab = "jadual" | "semak";
 
 /**
  * Mobile-only fixed bottom navigation. Frees the header to show just the
- * logo + name. The "Tempah" tab opens the booking sheet via the #tempah hash.
+ * logo + name. "Home" returns to the PKG directory; "Tempah" opens the
+ * booking sheet via the #tempah hash. Admin is intentionally not exposed
+ * to public users — admins use the /[pkg]/admin URL directly.
  */
 export function MobileTabBar({ pkgId, active }: { pkgId: string; active: Tab }) {
   const base = `/${pkgId}`;
 
   return (
     <nav aria-label="Navigasi" className="mobileTabBar">
+      <Link className="mobileTab" href="/">
+        <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path d="M3 11l9-8 9 8" />
+          <path d="M5 10v10h14V10" />
+        </svg>
+        Home
+      </Link>
+
       <Link className={`mobileTab${active === "jadual" ? " active" : ""}`} href={base}>
         <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <rect height="18" rx="2" width="18" x="3" y="4" />
@@ -33,13 +43,6 @@ export function MobileTabBar({ pkgId, active }: { pkgId: string; active: Tab }) 
           <path d="M21 21l-4.3-4.3" />
         </svg>
         Semak
-      </Link>
-
-      <Link className={`mobileTab${active === "admin" ? " active" : ""}`} href={`${base}/admin`}>
-        <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-          <path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z" />
-        </svg>
-        Admin
       </Link>
     </nav>
   );

@@ -36,7 +36,7 @@ export async function loginAction(_previousState: LoginState, formData: FormData
 export async function logoutAction(formData: FormData) {
   const pkgId = requiredText(formData, "pkg");
   clearAdminSession(pkgId);
-  redirect(`/${pkgId}/admin/login`);
+  redirect(`/${pkgId}`);
 }
 
 export async function cancelBookingAction(formData: FormData) {
