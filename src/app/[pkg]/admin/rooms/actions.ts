@@ -33,7 +33,7 @@ async function ensureUniqueSlug(pkgId: string, base: string) {
 
 export async function createRoomAction(formData: FormData) {
   const pkgId = requiredText(formData, "pkg");
-  if (!isAdminSession(pkgId)) redirect(`/${pkgId}/admin/login`);
+  if (!isAdminSession()) redirect("/admin");
 
   const name = requiredText(formData, "name");
   const shortName = requiredText(formData, "short_name") || name;
@@ -68,7 +68,7 @@ export async function createRoomAction(formData: FormData) {
 
 export async function updateRoomAction(formData: FormData) {
   const pkgId = requiredText(formData, "pkg");
-  if (!isAdminSession(pkgId)) redirect(`/${pkgId}/admin/login`);
+  if (!isAdminSession()) redirect("/admin");
 
   const roomId = requiredText(formData, "id");
   const name = requiredText(formData, "name");
@@ -103,7 +103,7 @@ export async function updateRoomAction(formData: FormData) {
 
 export async function deactivateRoomAction(formData: FormData) {
   const pkgId = requiredText(formData, "pkg");
-  if (!isAdminSession(pkgId)) redirect(`/${pkgId}/admin/login`);
+  if (!isAdminSession()) redirect("/admin");
 
   const roomId = requiredText(formData, "id");
   const base = `/${pkgId}/admin/rooms`;
@@ -118,7 +118,7 @@ export async function deactivateRoomAction(formData: FormData) {
 
 export async function reactivateRoomAction(formData: FormData) {
   const pkgId = requiredText(formData, "pkg");
-  if (!isAdminSession(pkgId)) redirect(`/${pkgId}/admin/login`);
+  if (!isAdminSession()) redirect("/admin");
 
   const roomId = requiredText(formData, "id");
   const base = `/${pkgId}/admin/rooms`;

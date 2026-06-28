@@ -2,10 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { clearAdminSession, isAdminSession, setAdminSession } from "../../../lib/admin-session";
+import { clearAdminSession, isAdminSession } from "../../../lib/admin-session";
 import { getConflictingBooking } from "../../../lib/booking-rules";
 import { parseSlot, requiredText } from "../../../lib/form";
-import { loadPkg, verifyPkgAdminPassword } from "../../../lib/pkg";
 import {
   approveBooking,
   cancelBooking,
@@ -14,35 +13,16 @@ import {
   rejectBooking,
   updateBooking
 } from "../../../lib/repository";
-import type { LoginState } from "../../../lib/types";
 
-export async function loginAction(_previousState: LoginState, formData: FormData) {
-  const pkgId = requiredText(formData, "pkg");
-  const password = requiredText(formData, "password");
-
-  const pkg = pkgId ? await loadPkg(pkgId) : null;
-  if (!pkg) {
-    return { ok: false, message: "PKG tidak sah." };
-  }
-
-  if (!(await verifyPkgAdminPassword(pkgId, password))) {
-    return { ok: false, message: "Kata laluan tidak tepat atau belum ditetapkan." };
-  }
-
-  setAdminSession(pkgId);
-  redirect(`/${pkgId}/admin`);
-}
-
-export async function logoutAction(formData: FormData) {
-  const pkgId = requiredText(formData, "pkg");
-  clearAdminSession(pkgId);
-  redirect(`/${pkgId}`);
+export async function logoutAction() {
+  clearAdminSession();
+  redirect("/");
 }
 
 export async function cancelBookingAction(formData: FormData) {
+  if (!isAdminSession()) redirect("/admin");
   const pkgId = requiredText(formData, "pkg");
   const id = requiredText(formData, "id");
-  if (!isAdminSession(pkgId)) redirect(`/${pkgId}/admin/login`);
 
   if (id) {
     await cancelBooking(pkgId, id);
@@ -54,9 +34,9 @@ export async function cancelBookingAction(formData: FormData) {
 }
 
 export async function approveBookingAction(formData: FormData) {
+  if (!isAdminSession()) redirect("/admin");
   const pkgId = requiredText(formData, "pkg");
   const id = requiredText(formData, "id");
-  if (!isAdminSession(pkgId)) redirect(`/${pkgId}/admin/login`);
 
   if (id) {
     await approveBooking(pkgId, id);
@@ -68,9 +48,9 @@ export async function approveBookingAction(formData: FormData) {
 }
 
 export async function rejectBookingAction(formData: FormData) {
+  if (!isAdminSession()) redirect("/admin");
   const pkgId = requiredText(formData, "pkg");
   const id = requiredText(formData, "id");
-  if (!isAdminSession(pkgId)) redirect(`/${pkgId}/admin/login`);
 
   if (id) {
     await rejectBooking(pkgId, id);
@@ -82,9 +62,9 @@ export async function rejectBookingAction(formData: FormData) {
 }
 
 export async function updateBookingAction(formData: FormData) {
+  if (!isAdminSession()) redirect("/admin");
   const pkgId = requiredText(formData, "pkg");
   const id = requiredText(formData, "id");
-  if (!isAdminSession(pkgId)) redirect(`/${pkgId}/admin/login`);
 
   const roomSlug = requiredText(formData, "room");
   const slot = parseSlot(formData.get("slot"));

@@ -16,8 +16,8 @@ export default async function AdminSettingsPage({
   const pkgId = params.pkg;
   const base = `/${pkgId}`;
 
-  if (!isAdminSession(pkgId)) {
-    redirect(`${base}/admin/login`);
+  if (!isAdminSession()) {
+    redirect("/admin");
   }
 
   const pkg = (await loadPkg(pkgId))!;

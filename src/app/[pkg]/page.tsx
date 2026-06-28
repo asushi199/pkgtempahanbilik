@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { AdminBar } from "../../components/AdminBar";
 import { BookingForm } from "../../components/BookingForm";
 import { CalendarBoard } from "../../components/CalendarBoard";
 import { MobileTabBar } from "../../components/MobileTabBar";
@@ -57,7 +56,7 @@ export default async function PkgHomePage({
 }) {
   const pkgId = params.pkg;
   const pkg = (await loadPkg(pkgId))!; // layout already guards existence
-  const isAdmin = isAdminSession(pkgId);
+  const isAdmin = isAdminSession();
   const configured = isSupabaseConfigured();
 
   let rooms: Room[] = [];
@@ -94,10 +93,13 @@ export default async function PkgHomePage({
         <div className="topNavLinks">
           <Link href="/">Laman Utama</Link>
           <Link href={`${base}/semak`}>Semak</Link>
+          {isAdmin ? (
+            <Link className="navAdminLink" href={`${base}/admin`}>
+              Admin
+            </Link>
+          ) : null}
         </div>
       </nav>
-
-      {isAdmin ? <AdminBar pkgId={pkgId} /> : null}
 
       <section className="dashboardHeader">
         <div>
@@ -240,7 +242,7 @@ export default async function PkgHomePage({
         </>
       ) : null}
 
-      <MobileTabBar active="jadual" pkgId={pkgId} />
+      <MobileTabBar active="jadual" isAdmin={isAdmin} pkgId={pkgId} />
     </main>
   );
 }

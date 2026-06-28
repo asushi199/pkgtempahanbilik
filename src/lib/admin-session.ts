@@ -1,24 +1,22 @@
 import { createHmac, timingSafeEqual } from "crypto";
 import { cookies } from "next/headers";
 
+const COOKIE_NAME = "pkg_admin";
+
 function getSecret() {
   return process.env.ADMIN_SESSION_SECRET || "tempahan-dev-secret";
-}
-
-function cookieName(pkgId: string) {
-  return `pkg_admin_${pkgId}`;
 }
 
 function sign(value: string) {
   return createHmac("sha256", getSecret()).update(value).digest("hex");
 }
 
-function createToken(pkgId: string) {
-  const payload = `admin:${pkgId}`;
+function createToken() {
+  const payload = "admin";
   return `${payload}.${sign(payload)}`;
 }
 
-function isValidToken(pkgId: string, token?: string) {
+function isValidToken(token?: string) {
   if (!token) return false;
 
   const lastDot = token.lastIndexOf(".");
@@ -26,7 +24,7 @@ function isValidToken(pkgId: string, token?: string) {
 
   const payload = token.slice(0, lastDot);
   const signature = token.slice(lastDot + 1);
-  if (payload !== `admin:${pkgId}` || !signature) return false;
+  if (payload !== "admin" || !signature) return false;
 
   const expected = sign(payload);
   const signatureBuffer = Buffer.from(signature);
@@ -36,20 +34,21 @@ function isValidToken(pkgId: string, token?: string) {
   return timingSafeEqual(signatureBuffer, expectedBuffer);
 }
 
-export function isAdminSession(pkgId: string) {
-  return isValidToken(pkgId, cookies().get(cookieName(pkgId))?.value);
+/** A single global admin session covers all PKGs. */
+export function isAdminSession() {
+  return isValidToken(cookies().get(COOKIE_NAME)?.value);
 }
 
-export function setAdminSession(pkgId: string) {
-  cookies().set(cookieName(pkgId), createToken(pkgId), {
+export function setAdminSession() {
+  cookies().set(COOKIE_NAME, createToken(), {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
-    path: `/${pkgId}`,
+    path: "/",
     maxAge: 60 * 60 * 8
   });
 }
 
-export function clearAdminSession(pkgId: string) {
-  cookies().delete(cookieName(pkgId));
+export function clearAdminSession() {
+  cookies().delete(COOKIE_NAME);
 }

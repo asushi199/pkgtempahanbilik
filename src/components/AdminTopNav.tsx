@@ -13,7 +13,7 @@ export function AdminTopNav({ pkg, pkgId }: { pkg: Pkg; pkgId: string }) {
         <strong>{pkg.name}</strong>
       </Link>
       <div className="topNavLinks">
-        <Link href="/">Laman Utama</Link>
+        <Link href="/admin">Tukar PKG</Link>
         <Link href={`/${pkgId}`}>Jadual</Link>
       </div>
     </nav>

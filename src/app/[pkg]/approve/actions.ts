@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { verifyApprovalToken } from "../../../lib/approval-token";
 import { requiredText } from "../../../lib/form";
-import { verifyPkgAdminPassword } from "../../../lib/pkg";
+import { verifyAdminPassword } from "../../../lib/pkg";
 import { approveBooking, getBooking, rejectBooking } from "../../../lib/repository";
 
 export async function approveByTokenAction(formData: FormData) {
@@ -21,7 +21,7 @@ export async function approveByTokenAction(formData: FormData) {
     redirect(`${resultBase}?status=invalid`);
   }
 
-  if (!(await verifyPkgAdminPassword(pkgId, adminPassword))) {
+  if (!verifyAdminPassword(adminPassword)) {
     redirect(`${resultBase}?status=unauthorized`);
   }
 

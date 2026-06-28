@@ -32,25 +32,21 @@ PKG disokong: Sitiawan, Ayer Tawar, Seri Manjung, Beruas, Pantai Remis.
 
 4. **Cipta bucket gambar** — di Supabase: Storage → New bucket → nama `room-photos`, **Public = ON**.
 
-5. **Tetapkan kata laluan admin setiap PKG** — kata laluan disimpan sebagai hash dalam `pkgs.admin_password_hash`:
-   ```bash
-   ADMIN_SESSION_SECRET=your-secret node scripts/hash-password.mjs "kata-laluan-pkg"
-   ```
-   Simpan hash yang dicetak ke lajur `admin_password_hash` PKG berkenaan, dan isi `whatsapp_admin_phone` (cth. `60123456789`).
+5. **Tetapkan kata laluan admin** — satu kata laluan global untuk semua PKG, melalui env var `ADMIN_PASSWORD` dalam `.env.local`. Nombor WhatsApp setiap PKG diisi sendiri oleh admin di halaman Tetapan (`/{pkg}/admin/settings`).
 
 6. **Jalankan**
    ```bash
    npm run dev
    ```
 
+## Admin
+Satu log masuk global di `/admin` (kata laluan `ADMIN_PASSWORD`) menguruskan semua PKG. Selepas log masuk, pilih sebuah PKG untuk masuk ke paparannya — pilihan **Admin** akan muncul di bar bawah (telefon) atau bar atas (desktop), membawa ke kelulusan tempahan, pengurusan bilik, dan tetapan. Pengguna biasa tidak nampak sebarang entri admin.
+
 ## Pengurusan bilik
-Admin setiap PKG boleh menambah, mengemas kini, dan menyembunyikan bilik (termasuk muat naik gambar) di `/{pkg}/admin/rooms`. Bilik yang dipadam dinyahaktif (soft delete) supaya rekod tempahan lama kekal utuh.
+Admin boleh menambah, mengemas kini, dan menyembunyikan bilik (termasuk muat naik gambar) di `/{pkg}/admin/rooms`. Bilik yang dipadam dinyahaktif (soft delete) supaya rekod tempahan lama kekal utuh.
 
 ## Notifikasi
 Selepas tempahan dihantar, pemohon menekan butang WhatsApp untuk menghantar mesej (mengandungi pautan kelulusan) kepada nombor admin PKG tersebut secara manual. Tiada integrasi WhatsApp API.
-
-## Tema
-Antara muka menyokong mod cerah dan gelap. Suis di bahagian atas menyimpan pilihan dalam `localStorage` dan mengikut tetapan sistem secara lalai.
 
 ## Akan datang
 Jadual `items` dan `item_rentals` telah disediakan untuk ciri sewaan barang pada masa hadapan.

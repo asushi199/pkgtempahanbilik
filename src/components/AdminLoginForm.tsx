@@ -1,7 +1,7 @@
 "use client";
 
 import { useFormState, useFormStatus } from "react-dom";
-import { loginAction } from "../app/[pkg]/admin/actions";
+import { loginAction } from "../app/admin/actions";
 import { initialLoginState } from "../lib/action-states";
 
 function LoginButton() {
@@ -14,14 +14,13 @@ function LoginButton() {
   );
 }
 
-export function AdminLoginForm({ pkgId }: { pkgId: string }) {
+export function AdminLoginForm() {
   const [state, formAction] = useFormState(loginAction, initialLoginState);
 
   return (
     <form action={formAction} className="stackForm">
-      <input name="pkg" type="hidden" value={pkgId} />
       <label>
-        Kata laluan
+        Kata laluan admin
         <input autoComplete="current-password" name="password" required type="password" />
       </label>
       {state.message ? <div className="notice error">{state.message}</div> : null}

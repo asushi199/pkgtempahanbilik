@@ -10,7 +10,7 @@ import { uploadPkgLogo } from "../../../../lib/storage";
 
 export async function updateSettingsAction(formData: FormData) {
   const pkgId = requiredText(formData, "pkg");
-  if (!isAdminSession(pkgId)) redirect(`/${pkgId}/admin/login`);
+  if (!isAdminSession()) redirect("/admin");
 
   const phone = normalizePhoneNumber(requiredText(formData, "whatsapp_admin_phone"));
   const base = `/${pkgId}/admin/settings`;
