@@ -74,6 +74,12 @@ begin
     return new;
   end if;
 
+  -- Serialize concurrent inserts/updates for the same room+date so the
+  -- existence check below cannot miss an uncommitted booking (TOCTOU guard).
+  perform pg_advisory_xact_lock(
+    hashtext(new.pkg_id || ':' || new.room_slug || ':' || new.date::text)
+  );
+
   if exists (
     select 1
     from public.bookings existing
