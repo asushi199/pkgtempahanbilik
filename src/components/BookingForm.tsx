@@ -64,7 +64,7 @@ export function BookingForm({
   return (
     <>
       <div aria-hidden className={`bookingOverlay${open ? " open" : ""}`} onClick={close} />
-      <section className={`bookingCard${open ? " open" : ""}`} id="tempah">
+      <section className={`bookingCard bookingSheet${open ? " open" : ""}`} id="tempah">
         <button aria-label="Tutup" className="bookingClose" onClick={close} type="button">
           ×
         </button>

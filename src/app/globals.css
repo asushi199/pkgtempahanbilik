@@ -1624,8 +1624,9 @@ select option {
 /* ─── Phone: bottom tab bar + booking sheet ─── */
 
 @media (max-width: 720px) {
-  /* Free the header — show only logo + name */
-  .topNavLinks {
+  /* Free the header on public pages — nav moves to the bottom tab bar.
+     Admin / picker pages keep their links visible. */
+  .topNav--public .topNavLinks {
     display: none;
   }
 
@@ -1687,12 +1688,13 @@ select option {
     color: var(--primary-strong);
   }
 
-  /* Booking form becomes a bottom sheet */
-  .bookingCard {
+  /* ONLY the booking form becomes a bottom sheet (other .bookingCard
+     reuses — semak, room manager, settings — stay visible) */
+  .bookingSheet {
     display: none;
   }
 
-  .bookingCard.open {
+  .bookingSheet.open {
     animation: sheetUp 280ms cubic-bezier(0.2, 0.7, 0.3, 1);
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     bottom: 0;

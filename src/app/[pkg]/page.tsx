@@ -85,7 +85,7 @@ export default async function PkgHomePage({
 
   return (
     <main className="shell">
-      <nav className="topNav">
+      <nav className="topNav topNav--public">
         <Link className="brandMark" href="/">
           <img alt={pkg.name} className="brandLogo" src={pkg.logo_src ?? "/ustp-manjung.png"} />
           <strong>{pkg.name}</strong>
