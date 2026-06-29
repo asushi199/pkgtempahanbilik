@@ -6,6 +6,7 @@ import { CalendarBoard } from "../../../../components/CalendarBoard";
 import { MobileTabBar } from "../../../../components/MobileTabBar";
 import { resolveAmenities } from "../../../../lib/amenities";
 import { isAdminSession } from "../../../../lib/admin-session";
+import { titleCase } from "../../../../lib/text";
 import { addMonths, formatMalayDate, listDateRange, startOfMonth, toIsoDate } from "../../../../lib/date";
 import { loadPkg } from "../../../../lib/pkg";
 import { getRoomBySlug, listActiveBookings } from "../../../../lib/repository";
@@ -83,7 +84,7 @@ export default async function RoomDetailPage({
         )}
         <div className="roomDetailInfo">
           <p className="eyebrow">{room.category}</p>
-          <h1>{room.name}</h1>
+          <h1>{titleCase(room.name)}</h1>
           <div className="amenityList" aria-label="Kemudahan bilik">
             <h2>Kemudahan</h2>
             {amenities.length > 0 ? (

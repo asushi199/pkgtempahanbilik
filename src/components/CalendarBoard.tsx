@@ -1,5 +1,6 @@
 import { getSlotBooking } from "../lib/booking-rules";
 import { formatDayName, formatMalayDate } from "../lib/date";
+import { titleCase } from "../lib/text";
 import type { Booking, Room } from "../lib/types";
 
 export function CalendarBoard({
@@ -21,7 +22,7 @@ export function CalendarBoard({
         <div className="dateHeader">Tarikh</div>
         {visibleRooms.map((room) => (
           <div className="roomHeader" key={room.id}>
-            {room.name} <span>{room.category}</span>
+            {titleCase(room.name)} <span>{room.category}</span>
           </div>
         ))}
       </div>
@@ -44,7 +45,7 @@ export function CalendarBoard({
           </div>
           {visibleRooms.map((room) => (
             <div className="slotPair" key={`${date}-${room.id}`}>
-              <div className="mobileRoomLabel">{room.name}</div>
+              <div className="mobileRoomLabel">{titleCase(room.name)}</div>
               {(["am", "pm"] as const).map((slot) => {
                 const booking = getSlotBooking(bookings, room.slug, date, slot);
                 const isFullDay = booking?.slot === "full_day";

@@ -5,6 +5,7 @@ import { useFormState, useFormStatus } from "react-dom";
 import { createBookingAction } from "../app/[pkg]/actions";
 import { initialBookingState } from "../lib/action-states";
 import { formatRoom, formatSlot, getConflictingBooking, slots } from "../lib/booking-rules";
+import { titleCase } from "../lib/text";
 import type { Booking, Room, Slot } from "../lib/types";
 
 function SubmitButton({ disabled }: { disabled: boolean }) {
@@ -125,7 +126,7 @@ export function BookingForm({
               <select name="room" onChange={(event) => setRoom(event.target.value)} value={room}>
                 {rooms.map((item) => (
                   <option key={item.id} value={item.slug}>
-                    {item.name}
+                    {titleCase(item.name)}
                   </option>
                 ))}
               </select>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AmenityIcon } from "../../components/AmenityIcon";
 import { MobileTabBar } from "../../components/MobileTabBar";
 import { resolveAmenities } from "../../lib/amenities";
+import { titleCase } from "../../lib/text";
 import { isAdminSession } from "../../lib/admin-session";
 import { loadPkg } from "../../lib/pkg";
 import { listRooms } from "../../lib/repository";
@@ -100,7 +101,7 @@ export default async function PkgHomePage({ params }: { params: { pkg: string } 
                   <span className="roomGalleryBadge">{room.category}</span>
                 </div>
                 <div className="roomGalleryBody">
-                  <h2 className="roomGalleryTitle">{room.name}</h2>
+                  <h2 className="roomGalleryTitle">{titleCase(room.name)}</h2>
                   {amenities.length > 0 ? (
                     <div className="amenityRow" aria-label="Kemudahan">
                       {amenities.slice(0, 4).map((item) => (
