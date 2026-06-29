@@ -21,16 +21,15 @@ export const PRESET_AMENITIES: AmenityDef[] = [
 const PRESET_BY_KEY = new Map(PRESET_AMENITIES.map((item) => [item.key, item]));
 const PRESET_KEYS = new Set(PRESET_AMENITIES.map((item) => item.key));
 
-const CUSTOM_ICON = "✅";
+export type ResolvedAmenity = { key: string; label: string };
 
-export type ResolvedAmenity = { label: string; icon: string };
-
-// Tukar nilai tersimpan -> senarai paparan {label, icon}.
+// Tukar nilai tersimpan -> senarai paparan {key, label}. Item tersuai
+// mempunyai key "" (paparan guna ikon umum).
 export function resolveAmenities(values: string[]): ResolvedAmenity[] {
   return values.map((value) => {
     const preset = PRESET_BY_KEY.get(value);
-    if (preset) return { label: preset.label, icon: preset.icon };
-    return { label: value, icon: CUSTOM_ICON };
+    if (preset) return { key: preset.key, label: preset.label };
+    return { key: "", label: value };
   });
 }
 

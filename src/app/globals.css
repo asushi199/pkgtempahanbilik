@@ -25,13 +25,13 @@
   --danger-soft: #fdecec;
   --neutral: #64748b;
   --neutral-soft: #eef1f5;
-  --shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.05);
-  --shadow-soft: 0 1px 2px rgba(16, 24, 40, 0.04), 0 8px 24px rgba(16, 24, 40, 0.05);
-  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.04), 0 12px 32px rgba(16, 24, 40, 0.07);
-  --shadow-blue: 0 6px 18px rgba(37, 99, 235, 0.28);
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 18px;
+  --shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-soft: 0 1px 3px rgba(16, 24, 40, 0.04), 0 6px 16px rgba(16, 24, 40, 0.05);
+  --shadow-card: 0 2px 6px rgba(16, 24, 40, 0.05), 0 18px 40px -14px rgba(16, 24, 40, 0.16);
+  --shadow-blue: 0 8px 20px -6px rgba(37, 99, 235, 0.40);
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
   --control-h: 38px;
   --control-h-sm: 30px;
   --sans: var(--font-inter), Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -171,53 +171,36 @@ select {
   margin: 18px 0;
 }
 
-/* Public welcome banner — blue gradient */
+/* Public welcome header — clean editorial, sits on the page canvas */
 .dashboardHeader,
 .hero {
-  align-items: center;
-  background: var(--primary-grad);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-blue);
-  color: var(--on-primary);
+  align-items: flex-end;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  color: var(--ink);
   display: flex;
   gap: 18px;
   justify-content: space-between;
-  overflow: hidden;
-  padding: 26px 28px;
+  padding: 8px 2px 4px;
   position: relative;
-}
-
-.dashboardHeader::after,
-.hero::after {
-  content: "";
-  position: absolute;
-  right: -60px;
-  top: -80px;
-  width: 240px;
-  height: 240px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 70%);
-  pointer-events: none;
 }
 
 .dashboardHeader h1,
 .hero h1 {
-  color: #fff;
-  font-size: clamp(1.6rem, 2.5vw, 2.35rem);
-  letter-spacing: -0.02em;
-  line-height: 1.08;
-  margin: 7px 0 8px;
-}
-
-.dashboardHeader .eyebrow,
-.hero .eyebrow {
-  background: rgba(255, 255, 255, 0.18);
-  color: #fff;
+  color: var(--ink);
+  font-size: clamp(1.75rem, 6vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+  margin: 12px 0 8px;
 }
 
 .dashboardHeader .heroText,
 .hero .heroText {
-  color: rgba(255, 255, 255, 0.88);
-  max-width: 52ch;
+  color: var(--muted);
+  font-size: 1rem;
+  max-width: 54ch;
 }
 
 .compactHero {
@@ -307,14 +290,15 @@ select {
 }
 
 .primaryButton {
-  background: var(--primary-grad);
+  background: var(--primary);
   color: var(--on-primary);
   box-shadow: var(--shadow-blue);
 }
 
 .primaryButton:hover {
+  background: var(--primary-strong);
   transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.34);
+  box-shadow: 0 12px 26px -6px rgba(37, 99, 235, 0.5);
 }
 
 .primaryButton:disabled {
@@ -332,27 +316,6 @@ select {
 
 .whatsappButton:hover {
   transform: translateY(-1px);
-}
-
-/* On the blue banner, the primary action flips to white-on-blue */
-.dashboardHeader .primaryButton,
-.hero .primaryButton {
-  background: #fff;
-  color: var(--primary-strong);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-}
-
-.dashboardHeader .ghostButton,
-.hero .ghostButton {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.4);
-  color: #fff;
-}
-
-.dashboardHeader .ghostButton:hover,
-.hero .ghostButton:hover {
-  background: rgba(255, 255, 255, 0.26);
-  color: #fff;
 }
 
 .ghostButton,
@@ -528,27 +491,35 @@ select {
 
 .roomGalleryGrid {
   display: grid;
-  gap: 18px;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  margin: 18px 0 24px;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  margin: 22px 0 28px;
 }
 
 .roomGalleryCard {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
   color: inherit;
-  display: grid;
-  grid-template-rows: 180px 1fr;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   text-decoration: none;
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  transition: transform 240ms cubic-bezier(0.2, 0.7, 0.3, 1), box-shadow 240ms ease,
+    border-color 240ms ease;
 }
 
 .roomGalleryCard:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
   box-shadow: var(--shadow-card);
+  border-color: var(--line-soft);
+}
+
+.roomGalleryMedia {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  position: relative;
 }
 
 .roomGalleryImage {
@@ -556,32 +527,90 @@ select {
   height: 100%;
   object-fit: cover;
   width: 100%;
+  transition: transform 700ms cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+.roomGalleryCard:hover .roomGalleryImage {
+  transform: scale(1.05);
 }
 
 .roomGalleryImage.placeholder {
   align-items: center;
   color: var(--muted);
   display: flex;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   justify-content: center;
   letter-spacing: 0.02em;
 }
 
-.roomGalleryBody {
-  display: grid;
-  gap: 12px;
-  padding: 16px;
+.roomGalleryMedia::after {
+  content: "";
+  background: linear-gradient(to top, rgba(8, 15, 30, 0.34), transparent 44%);
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
 }
 
-.roomGalleryBody h2 {
-  font-size: 1.16rem;
+.roomGalleryBadge {
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 999px;
+  box-shadow: var(--shadow-xs);
+  color: var(--ink);
+  font-size: 0.7rem;
+  font-weight: 700;
+  left: 12px;
+  letter-spacing: 0.02em;
+  padding: 5px 11px;
+  position: absolute;
+  top: 12px;
+  z-index: 1;
+}
+
+.roomGalleryBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px 16px 18px;
+}
+
+.roomGalleryTitle {
+  font-size: 1.12rem;
+  font-weight: 750;
   letter-spacing: -0.01em;
+  line-height: 1.25;
   margin: 0;
 }
 
 .galleryCta {
-  margin-top: 4px;
-  text-align: center;
+  align-items: center;
+  background: var(--primary);
+  border-radius: var(--radius-sm);
+  color: var(--on-primary);
+  display: inline-flex;
+  font-size: 0.92rem;
+  font-weight: 700;
+  gap: 8px;
+  justify-content: center;
+  margin-top: auto;
+  min-height: 46px;
+  transition: background 160ms ease, box-shadow 220ms ease;
+}
+
+.roomGalleryCard:hover .galleryCta {
+  background: var(--primary-strong);
+  box-shadow: var(--shadow-blue);
+}
+
+.galleryCta svg {
+  height: 16px;
+  transition: transform 220ms ease;
+  width: 16px;
+}
+
+.roomGalleryCard:hover .galleryCta svg {
+  transform: translateX(4px);
 }
 
 /* ─── Amenities (chips + detail list) ─── */
@@ -589,41 +618,51 @@ select {
 .amenityRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 7px;
 }
 
 .amenityChip {
   align-items: center;
   background: var(--surface-soft);
   border: 1px solid var(--line);
-  border-radius: 999px;
-  color: var(--muted);
+  border-radius: 9px;
+  color: var(--ink-soft);
   display: inline-flex;
-  font-size: 0.74rem;
-  font-weight: 650;
-  gap: 4px;
-  padding: 4px 10px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  gap: 6px;
+  padding: 5px 9px;
+}
+
+.amenityChip svg {
+  color: var(--primary);
+  flex: 0 0 auto;
+  height: 15px;
+  width: 15px;
 }
 
 .amenityChip--more {
-  color: var(--ink);
+  background: transparent;
+  border-color: transparent;
+  color: var(--muted);
+  font-weight: 700;
 }
 
 .roomDetailHero {
   align-items: stretch;
   display: grid;
-  gap: 18px;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  margin: 8px 0 20px;
+  gap: 22px;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  margin: 8px 0 22px;
 }
 
 .roomDetailImage {
   background: var(--surface-soft);
   border: 1px solid var(--line);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   height: 100%;
-  max-height: 360px;
-  min-height: 220px;
+  max-height: 380px;
+  min-height: 240px;
   object-fit: cover;
   width: 100%;
 }
@@ -642,18 +681,22 @@ select {
 }
 
 .roomDetailInfo h1 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
   margin: 0;
 }
 
 .amenityList h2 {
-  font-size: 1.02rem;
-  margin: 8px 0 8px;
+  font-size: 0.98rem;
+  margin: 10px 0 10px;
 }
 
 .amenityList ul {
   display: grid;
-  gap: 8px;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 9px;
+  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
   list-style: none;
   margin: 0;
   padding: 0;
@@ -663,22 +706,24 @@ select {
   align-items: center;
   background: var(--surface-soft);
   border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
+  border-radius: 11px;
   color: var(--ink);
   display: flex;
   font-size: 0.86rem;
   font-weight: 600;
-  gap: 8px;
-  padding: 8px 10px;
+  gap: 10px;
+  padding: 10px 12px;
 }
 
-.amenityIcon {
-  font-size: 1.1rem;
-  line-height: 1;
+.amenityItem svg {
+  color: var(--primary);
+  flex: 0 0 auto;
+  height: 18px;
+  width: 18px;
 }
 
 .detailBackRow {
-  margin: 4px 0 12px;
+  margin: 4px 0 14px;
 }
 
 .muted {

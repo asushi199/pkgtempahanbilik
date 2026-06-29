@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AmenityIcon } from "../../../../components/AmenityIcon";
 import { BookingForm } from "../../../../components/BookingForm";
 import { CalendarBoard } from "../../../../components/CalendarBoard";
 import { MobileTabBar } from "../../../../components/MobileTabBar";
@@ -89,9 +90,7 @@ export default async function RoomDetailPage({
               <ul>
                 {amenities.map((item) => (
                   <li className="amenityItem" key={item.label}>
-                    <span aria-hidden className="amenityIcon">
-                      {item.icon}
-                    </span>
+                    <AmenityIcon name={item.key} />
                     {item.label}
                   </li>
                 ))}

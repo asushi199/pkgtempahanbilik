@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AmenityIcon } from "../../components/AmenityIcon";
 import { MobileTabBar } from "../../components/MobileTabBar";
 import { resolveAmenities } from "../../lib/amenities";
 import { isAdminSession } from "../../lib/admin-session";
@@ -90,29 +91,34 @@ export default async function PkgHomePage({ params }: { params: { pkg: string } 
             const amenities = resolveAmenities(room.amenities ?? []);
             return (
               <Link className="roomGalleryCard" href={`${base}/bilik/${room.slug}`} key={room.id}>
-                {room.image_src ? (
-                  <img alt={`${room.name} - ${room.category}`} className="roomGalleryImage" src={room.image_src} />
-                ) : (
-                  <div className="roomGalleryImage placeholder">Tiada gambar</div>
-                )}
+                <div className="roomGalleryMedia">
+                  {room.image_src ? (
+                    <img alt={`${room.name} - ${room.category}`} className="roomGalleryImage" src={room.image_src} />
+                  ) : (
+                    <div className="roomGalleryImage placeholder">Tiada gambar</div>
+                  )}
+                  <span className="roomGalleryBadge">{room.category}</span>
+                </div>
                 <div className="roomGalleryBody">
-                  <div>
-                    <h2>{room.name}</h2>
-                    <p className="muted">{room.category}</p>
-                  </div>
+                  <h2 className="roomGalleryTitle">{room.name}</h2>
                   {amenities.length > 0 ? (
                     <div className="amenityRow" aria-label="Kemudahan">
-                      {amenities.slice(0, 6).map((item) => (
+                      {amenities.slice(0, 4).map((item) => (
                         <span className="amenityChip" key={item.label} title={item.label}>
-                          <span aria-hidden>{item.icon}</span> {item.label}
+                          <AmenityIcon name={item.key} /> {item.label}
                         </span>
                       ))}
-                      {amenities.length > 6 ? (
-                        <span className="amenityChip amenityChip--more">+{amenities.length - 6}</span>
+                      {amenities.length > 4 ? (
+                        <span className="amenityChip amenityChip--more">+{amenities.length - 4} lagi</span>
                       ) : null}
                     </div>
                   ) : null}
-                  <span className="primaryButton fullWidth galleryCta">Lihat &amp; Tempah</span>
+                  <span className="galleryCta">
+                    Lihat &amp; Tempah
+                    <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24">
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </span>
                 </div>
               </Link>
             );
