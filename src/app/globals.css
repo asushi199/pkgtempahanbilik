@@ -867,6 +867,39 @@ select option {
   color: #157a3a;
 }
 
+.adminToast {
+  align-items: center;
+  animation: fadeIn 200ms ease;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  left: 50%;
+  margin: 0;
+  max-width: min(560px, calc(100% - 24px));
+  position: fixed;
+  top: 16px;
+  transform: translateX(-50%);
+  width: max-content;
+  z-index: 80;
+}
+
+.adminToastClose {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  opacity: 0.7;
+  padding: 0;
+}
+
+.adminToastClose:hover {
+  opacity: 1;
+}
+
 /* ─── Schedule panel ─── */
 
 .panelHeader {

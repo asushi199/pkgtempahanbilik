@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { AdminToast } from "../../../../components/AdminToast";
 import { AdminTopNav } from "../../../../components/AdminTopNav";
 import { RoomManager } from "../../../../components/RoomManager";
 import { isAdminSession } from "../../../../lib/admin-session";
@@ -63,7 +64,7 @@ export default async function AdminRoomsPage({
         </div>
       </section>
 
-      {message ? <div className={`notice ${message.tone}`}>{message.text}</div> : null}
+      {message ? <AdminToast text={message.text} tone={message.tone} /> : null}
       {dataError ? <div className="notice error">{dataError}</div> : null}
 
       <RoomManager pkgId={pkgId} rooms={rooms} />
