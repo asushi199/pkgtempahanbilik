@@ -146,10 +146,10 @@ export default async function RoomDetailPage({
           </div>
           <CalendarBoard activeMobileRoom={room.slug} bookings={bookings} dates={dates} rooms={[room]} />
         </div>
-        <BookingForm bookings={bookings} configured={!bookingError} embedded pkgId={pkgId} rooms={[room]} />
+        <BookingForm bookings={bookings} configured={!bookingError} pkgId={pkgId} rooms={[room]} />
       </section>
 
-      <MobileTabBar active="jadual" isAdmin={isAdmin} pkgId={pkgId} />
+      <MobileTabBar active="bilik" isAdmin={isAdmin} pkgId={pkgId} />
     </main>
   );
 }

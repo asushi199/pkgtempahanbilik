@@ -141,7 +141,7 @@ export default async function PkgHomePage({ params }: { params: { pkg: string } 
         </section>
       ) : null}
 
-      <MobileTabBar active="jadual" isAdmin={isAdmin} pkgId={pkgId} />
+      <MobileTabBar active="bilik" isAdmin={isAdmin} pkgId={pkgId} />
     </main>
   );
 }
