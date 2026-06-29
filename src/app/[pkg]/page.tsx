@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { AmenityIcon } from "../../components/AmenityIcon";
 import { MobileTabBar } from "../../components/MobileTabBar";
-import { resolveAmenities } from "../../lib/amenities";
+import { amenityCardLayout } from "../../lib/amenities";
 import { titleCase } from "../../lib/text";
 import { isAdminSession } from "../../lib/admin-session";
 import { loadPkg } from "../../lib/pkg";
@@ -89,7 +89,8 @@ export default async function PkgHomePage({ params }: { params: { pkg: string } 
       {rooms.length > 0 ? (
         <section className="roomGalleryGrid" aria-label="Senarai bilik">
           {rooms.map((room) => {
-            const amenities = resolveAmenities(room.amenities ?? []);
+            const card = amenityCardLayout(room.amenities ?? []);
+            const hasAmenities = (room.amenities?.length ?? 0) > 0;
             return (
               <Link className="roomGalleryCard" href={`${base}/bilik/${room.slug}`} key={room.id}>
                 <div className="roomGalleryMedia">
@@ -102,15 +103,28 @@ export default async function PkgHomePage({ params }: { params: { pkg: string } 
                 </div>
                 <div className="roomGalleryBody">
                   <h2 className="roomGalleryTitle">{titleCase(room.name)}</h2>
-                  {amenities.length > 0 ? (
-                    <div className="amenityRow" aria-label="Kemudahan">
-                      {amenities.slice(0, 4).map((item) => (
-                        <span className="amenityChip" key={item.label} title={item.label}>
-                          <AmenityIcon name={item.key} /> {item.label}
-                        </span>
-                      ))}
-                      {amenities.length > 4 ? (
-                        <span className="amenityChip amenityChip--more">+{amenities.length - 4} lagi</span>
+                  {hasAmenities ? (
+                    <div className="amenityBlock">
+                      {card.textChips.length > 0 ? (
+                        <div className="amenityRow" aria-label="Kemudahan utama">
+                          {card.textChips.map((item) => (
+                            <span className="amenityChip" key={item.label} title={item.label}>
+                              <AmenityIcon name={item.key} /> {item.label}
+                            </span>
+                          ))}
+                        </div>
+                      ) : null}
+                      {card.iconChips.length > 0 || card.extraCount > 0 ? (
+                        <div className="amenityIconRow" aria-label="Kemudahan lain">
+                          {card.iconChips.map((item) => (
+                            <span className="amenityIconChip" key={item.label} title={item.label}>
+                              <AmenityIcon name={item.key} />
+                            </span>
+                          ))}
+                          {card.extraCount > 0 ? (
+                            <span className="amenityIconChip amenityIconChip--more">+{card.extraCount}</span>
+                          ) : null}
+                        </div>
                       ) : null}
                     </div>
                   ) : null}

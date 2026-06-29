@@ -648,6 +648,42 @@ select {
   font-weight: 700;
 }
 
+.amenityBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.amenityIconRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.amenityIconChip {
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--primary);
+  display: inline-flex;
+  height: 32px;
+  justify-content: center;
+  width: 32px;
+}
+
+.amenityIconChip svg {
+  height: 17px;
+  width: 17px;
+}
+
+.amenityIconChip--more {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 0 9px;
+  width: auto;
+}
+
 .roomDetailHero {
   align-items: stretch;
   display: grid;
