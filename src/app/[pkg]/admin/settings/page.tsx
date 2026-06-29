@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { AdminToast } from "../../../../components/AdminToast";
 import { AdminTopNav } from "../../../../components/AdminTopNav";
 import { isAdminSession } from "../../../../lib/admin-session";
 import { loadPkg } from "../../../../lib/pkg";
@@ -44,11 +45,12 @@ export default async function AdminSettingsPage({
         </div>
       </section>
 
-      {saved ? <div className="notice success">Tetapan berjaya disimpan.</div> : null}
+      {saved ? <AdminToast text="Tetapan berjaya disimpan." tone="success" /> : null}
       {logoError ? (
-        <div className="notice error">
-          Muat naik logo gagal. Semak format (JPG/PNG/WEBP) dan saiz (≤5MB).
-        </div>
+        <AdminToast
+          text="Muat naik logo gagal. Semak format (JPG/PNG/WEBP) dan saiz (≤5MB)."
+          tone="error"
+        />
       ) : null}
 
       <section className="bookingCard lookupCard" style={{ maxWidth: "100%" }}>
