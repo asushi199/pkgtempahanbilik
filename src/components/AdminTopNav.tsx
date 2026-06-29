@@ -13,8 +13,13 @@ export function AdminTopNav({ pkg, pkgId }: { pkg: Pkg; pkgId: string }) {
         <strong>{pkg.name}</strong>
       </Link>
       <div className="topNavLinks">
-        <Link href="/admin">Tukar PKG</Link>
-        <Link href={`/${pkgId}`}>Jadual</Link>
+        <Link aria-label="Tukar PKG" className="navIconLink" href="/admin" title="Tukar PKG">
+          <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path d="M3 11l9-8 9 8" />
+            <path d="M5 10v10h14V10" />
+          </svg>
+        </Link>
+        <Link href={`/${pkgId}`}>Bilik</Link>
       </div>
     </nav>
   );

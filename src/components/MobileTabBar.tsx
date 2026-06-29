@@ -12,19 +12,18 @@ type Tab = "bilik" | "semak";
 export function MobileTabBar({
   pkgId,
   active,
-  isAdmin = false
+  isAdmin = false,
+  showTempah = false
 }: {
   pkgId: string;
   active: Tab;
   isAdmin?: boolean;
+  showTempah?: boolean;
 }) {
   const base = `/${pkgId}`;
 
   return (
-    <nav
-      aria-label="Navigasi"
-      className={`mobileTabBar${isAdmin ? " mobileTabBar--admin" : ""}`}
-    >
+    <nav aria-label="Navigasi" className="mobileTabBar">
       <Link className="mobileTab" href="/">
         <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <path d="M3 11l9-8 9 8" />
@@ -43,13 +42,15 @@ export function MobileTabBar({
         Bilik
       </Link>
 
-      <a className="mobileTab tempahTab" href="#tempah">
-        <svg fill="none" stroke="currentColor" strokeWidth="2.4" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="9" />
-          <path d="M12 8v8M8 12h8" />
-        </svg>
-        Tempah
-      </a>
+      {showTempah ? (
+        <a className="mobileTab tempahTab" href="#tempah">
+          <svg fill="none" stroke="currentColor" strokeWidth="2.4" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 8v8M8 12h8" />
+          </svg>
+          Tempah
+        </a>
+      ) : null}
 
       <Link className={`mobileTab${active === "semak" ? " active" : ""}`} href={`${base}/semak`}>
         <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">

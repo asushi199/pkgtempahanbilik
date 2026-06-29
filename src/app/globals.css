@@ -150,6 +150,18 @@ select {
   color: var(--ink);
 }
 
+.topNavLinks .navIconLink {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  padding: 8px;
+}
+
+.topNavLinks .navIconLink svg {
+  height: 19px;
+  width: 19px;
+}
+
 /* ─── Admin entry in the public top nav (only when logged in) ─── */
 
 .topNavLinks .navAdminLink {
@@ -1973,16 +1985,13 @@ select option {
     bottom: 0;
     box-shadow: 0 -4px 20px rgba(16, 24, 40, 0.06);
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
     left: 0;
     padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px));
     position: fixed;
     right: 0;
     z-index: 50;
-  }
-
-  .mobileTabBar--admin {
-    grid-template-columns: repeat(5, 1fr);
   }
 
   .adminTab.mobileTab {

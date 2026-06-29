@@ -149,7 +149,7 @@ export default async function RoomDetailPage({
         <BookingForm bookings={bookings} configured={!bookingError} pkgId={pkgId} rooms={[room]} />
       </section>
 
-      <MobileTabBar active="bilik" isAdmin={isAdmin} pkgId={pkgId} />
+      <MobileTabBar active="bilik" isAdmin={isAdmin} pkgId={pkgId} showTempah />
     </main>
   );
 }
