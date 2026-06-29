@@ -1,21 +1,25 @@
 // Senarai kemudahan pratetap (sumber tunggal untuk borang admin & paparan awam).
 // Nilai disimpan dalam rooms.amenities (text[]): item pratetap simpan `key`,
-// item tersuai simpan teks asal. Paparan padankan key -> ikon; jika tiada padanan
-// ia dianggap kemudahan tersuai dan menggunakan ikon umum.
+// item tersuai simpan teks asal. Ikon dipadankan dari `key` melalui komponen
+// AmenityIcon (borang admin & paparan awam guna ikon yang sama).
 
-export type AmenityDef = { key: string; label: string; icon: string };
+export type AmenityDef = { key: string; label: string };
 
 export const PRESET_AMENITIES: AmenityDef[] = [
-  { key: "aircond", label: "Penyaman udara", icon: "❄️" },
-  { key: "projector", label: "Projektor", icon: "📽️" },
-  { key: "smartboard", label: "Smartboard", icon: "🖥️" },
-  { key: "whiteboard", label: "Papan putih", icon: "📝" },
-  { key: "wifi", label: "Wi-Fi", icon: "📶" },
-  { key: "audio", label: "Sistem audio", icon: "🔊" },
-  { key: "microphone", label: "Mikrofon", icon: "🎤" },
-  { key: "chairs", label: "Kerusi", icon: "🪑" },
-  { key: "tables", label: "Meja", icon: "🟫" },
-  { key: "tv", label: "TV / Skrin", icon: "📺" }
+  { key: "aircond", label: "Penyaman udara" },
+  { key: "projector", label: "Projektor" },
+  { key: "smartboard", label: "Smartboard" },
+  { key: "whiteboard", label: "Papan putih" },
+  { key: "wifi", label: "Wi-Fi" },
+  { key: "audio", label: "Sistem audio" },
+  { key: "microphone", label: "Mikrofon" },
+  { key: "chairs", label: "Kerusi" },
+  { key: "tables", label: "Meja" },
+  { key: "tv", label: "TV / Skrin" },
+  { key: "green_screen", label: "Skrin hijau (kroma)" },
+  { key: "studio_light", label: "Lampu studio" },
+  { key: "camera", label: "Kamera" },
+  { key: "teleprompter", label: "Teleprompter" }
 ];
 
 const PRESET_BY_KEY = new Map(PRESET_AMENITIES.map((item) => [item.key, item]));

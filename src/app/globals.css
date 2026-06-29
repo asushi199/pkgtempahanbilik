@@ -768,6 +768,13 @@ select {
   width: auto;
 }
 
+.amenityCheck svg {
+  color: var(--primary);
+  flex: 0 0 auto;
+  height: 16px;
+  width: 16px;
+}
+
 /* ─── Workspace ─── */
 
 .workspace {

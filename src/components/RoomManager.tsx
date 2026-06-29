@@ -6,6 +6,7 @@ import {
 } from "../app/[pkg]/admin/rooms/actions";
 import { PRESET_AMENITIES, customAmenities } from "../lib/amenities";
 import type { Room } from "../lib/types";
+import { AmenityIcon } from "./AmenityIcon";
 
 function AmenityFields({ selected }: { selected?: string[] }) {
   const chosen = new Set(selected ?? []);
@@ -21,9 +22,8 @@ function AmenityFields({ selected }: { selected?: string[] }) {
               type="checkbox"
               value={item.key}
             />
-            <span>
-              {item.icon} {item.label}
-            </span>
+            <AmenityIcon name={item.key} />
+            <span>{item.label}</span>
           </label>
         ))}
       </div>

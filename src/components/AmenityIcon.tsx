@@ -62,6 +62,31 @@ const ICONS: Record<string, JSX.Element> = {
       <rect height="12" rx="2" width="18" x="3" y="4" />
       <path d="M8 20h8M12 16v4" />
     </>
+  ),
+  green_screen: (
+    <>
+      <rect height="13" rx="2" width="18" x="3" y="4" />
+      <circle cx="12" cy="9.5" r="2" />
+      <path d="M8.5 15a3.5 3.5 0 0 1 7 0" />
+    </>
+  ),
+  studio_light: (
+    <>
+      <rect height="8" rx="1.5" width="11" x="6.5" y="3" />
+      <path d="M12 11v7M8.5 21h7M9 6.5h6" />
+    </>
+  ),
+  camera: (
+    <>
+      <rect height="10" rx="2" width="12" x="3" y="7" />
+      <path d="M15 10.5l6-3.5v10l-6-3.5z" />
+    </>
+  ),
+  teleprompter: (
+    <>
+      <rect height="10" rx="2" width="15" x="3" y="4" />
+      <path d="M6.5 8h8M6.5 11h5M10.5 14v5M7 19h7" />
+    </>
   )
 };
 
