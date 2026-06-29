@@ -21,12 +21,14 @@ export function BookingForm({
   bookings,
   configured,
   pkgId,
-  rooms
+  rooms,
+  embedded = false
 }: {
   bookings: Booking[];
   configured: boolean;
   pkgId: string;
   rooms: Room[];
+  embedded?: boolean;
 }) {
   const [state, formAction] = useFormState(createBookingAction, initialBookingState);
   const [room, setRoom] = useState<string>(rooms[0]?.slug ?? "");
@@ -34,22 +36,24 @@ export function BookingForm({
   const [date, setDate] = useState("");
   const [open, setOpen] = useState(false);
 
-  // Open as a bottom-sheet on mobile when the URL hash is #tempah.
+  // Open as a bottom-sheet on mobile when the URL hash is #tempah (skip when embedded inline).
   useEffect(() => {
+    if (embedded) return;
     const sync = () => setOpen(window.location.hash === "#tempah");
     sync();
     window.addEventListener("hashchange", sync);
     return () => window.removeEventListener("hashchange", sync);
-  }, []);
+  }, [embedded]);
 
   // Lock body scroll while the mobile sheet is open.
   useEffect(() => {
+    if (embedded) return;
     const mobile = window.matchMedia("(max-width: 720px)").matches;
     document.body.style.overflow = open && mobile ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [open]);
+  }, [open, embedded]);
 
   function close() {
     history.replaceState(null, "", window.location.pathname + window.location.search);
@@ -63,11 +67,20 @@ export function BookingForm({
 
   return (
     <>
-      <div aria-hidden className={`bookingOverlay${open ? " open" : ""}`} onClick={close} />
-      <section className={`bookingCard bookingSheet${open ? " open" : ""}`} id="tempah">
-        <button aria-label="Tutup" className="bookingClose" onClick={close} type="button">
-          ×
-        </button>
+      {embedded ? null : (
+        <div aria-hidden className={`bookingOverlay${open ? " open" : ""}`} onClick={close} />
+      )}
+      <section
+        className={
+          embedded ? "bookingCard bookingEmbedded" : `bookingCard bookingSheet${open ? " open" : ""}`
+        }
+        id="tempah"
+      >
+        {embedded ? null : (
+          <button aria-label="Tutup" className="bookingClose" onClick={close} type="button">
+            ×
+          </button>
+        )}
         <div className="formTitleRow">
           <div>
             <p className="eyebrow">Tempahan baharu</p>

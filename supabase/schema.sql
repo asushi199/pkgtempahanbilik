@@ -25,11 +25,15 @@ create table if not exists public.rooms (
   short_name text not null,
   category text not null,
   image_src text,
+  amenities text[] not null default '{}',
   active boolean not null default true,
   sort_order int not null default 0,
   created_at timestamptz not null default now(),
   unique (pkg_id, slug)
 );
+
+-- Idempotent migration for existing databases.
+alter table public.rooms add column if not exists amenities text[] not null default '{}';
 
 create index if not exists rooms_pkg_active_idx
   on public.rooms (pkg_id, active, sort_order);

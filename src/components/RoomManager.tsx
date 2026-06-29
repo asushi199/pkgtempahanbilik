@@ -4,7 +4,41 @@ import {
   reactivateRoomAction,
   updateRoomAction
 } from "../app/[pkg]/admin/rooms/actions";
+import { PRESET_AMENITIES, customAmenities } from "../lib/amenities";
 import type { Room } from "../lib/types";
+
+function AmenityFields({ selected }: { selected?: string[] }) {
+  const chosen = new Set(selected ?? []);
+  return (
+    <fieldset className="amenityPicker">
+      <legend>Kemudahan dalam bilik</legend>
+      <div className="amenityCheckGrid">
+        {PRESET_AMENITIES.map((item) => (
+          <label className="amenityCheck" key={item.key}>
+            <input
+              defaultChecked={chosen.has(item.key)}
+              name="amenities"
+              type="checkbox"
+              value={item.key}
+            />
+            <span>
+              {item.icon} {item.label}
+            </span>
+          </label>
+        ))}
+      </div>
+      <label>
+        Kemudahan lain (satu baris satu / pisah dengan koma)
+        <textarea
+          defaultValue={customAmenities(selected ?? []).join("\n")}
+          name="amenities_custom"
+          placeholder="Contoh: Pemanas air, Pantri, Surau berdekatan"
+          rows={3}
+        />
+      </label>
+    </fieldset>
+  );
+}
 
 export function RoomManager({ pkgId, rooms }: { pkgId: string; rooms: Room[] }) {
   return (
@@ -40,6 +74,7 @@ export function RoomManager({ pkgId, rooms }: { pkgId: string; rooms: Room[] }) 
             Gambar bilik
             <input accept="image/jpeg,image/png,image/webp" name="photo" type="file" />
           </label>
+          <AmenityFields />
           <button className="primaryButton fullWidth" type="submit">
             Tambah bilik
           </button>
@@ -93,6 +128,7 @@ export function RoomManager({ pkgId, rooms }: { pkgId: string; rooms: Room[] }) 
                       Tukar gambar (pilihan)
                       <input accept="image/jpeg,image/png,image/webp" name="photo" type="file" />
                     </label>
+                    <AmenityFields selected={room.amenities} />
                     <button className="primaryButton fullWidth" type="submit">
                       Simpan perubahan
                     </button>

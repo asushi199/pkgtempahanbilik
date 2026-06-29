@@ -78,6 +78,7 @@ export type RoomInput = {
   category: string;
   sort_order?: number;
   image_src?: string | null;
+  amenities?: string[];
 };
 
 export async function listRooms(pkgId: string, includeInactive = false): Promise<Room[]> {
@@ -110,6 +111,22 @@ export async function getRoom(pkgId: string, roomId: string): Promise<Room | nul
   return (data as Room) ?? null;
 }
 
+export async function getRoomBySlug(pkgId: string, slug: string): Promise<Room | null> {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase
+    .from("rooms")
+    .select("*")
+    .eq("pkg_id", pkgId)
+    .eq("slug", slug)
+    .eq("active", true)
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+  return (data as Room) ?? null;
+}
+
 export async function createRoom(pkgId: string, slug: string, input: RoomInput) {
   const supabase = getSupabaseAdmin();
   if (!supabase) throw new Error(notConfiguredMessage);
@@ -121,6 +138,7 @@ export async function createRoom(pkgId: string, slug: string, input: RoomInput) 
     short_name: input.short_name,
     category: input.category,
     image_src: input.image_src ?? null,
+    amenities: input.amenities ?? [],
     sort_order: input.sort_order ?? 0
   });
 

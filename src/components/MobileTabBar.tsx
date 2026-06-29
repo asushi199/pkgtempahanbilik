@@ -4,8 +4,9 @@ type Tab = "jadual" | "semak";
 
 /**
  * Mobile-only fixed bottom navigation. "Home" returns to the PKG directory;
- * "Tempah" opens the booking sheet via the #tempah hash. When an admin is
- * logged in, an extra "Admin" tab appears (regular users never see it).
+ * "Tempah" returns to the room gallery so the user can pick a room to book.
+ * When an admin is logged in, an extra "Admin" tab appears (regular users
+ * never see it).
  */
 export function MobileTabBar({
   pkgId,
@@ -39,13 +40,13 @@ export function MobileTabBar({
         Jadual
       </Link>
 
-      <a className="mobileTab tempahTab" href={`${base}#tempah`}>
+      <Link className="mobileTab tempahTab" href={base}>
         <svg fill="none" stroke="currentColor" strokeWidth="2.4" viewBox="0 0 24 24">
           <circle cx="12" cy="12" r="9" />
           <path d="M12 8v8M8 12h8" />
         </svg>
         Tempah
-      </a>
+      </Link>
 
       <Link className={`mobileTab${active === "semak" ? " active" : ""}`} href={`${base}/semak`}>
         <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">

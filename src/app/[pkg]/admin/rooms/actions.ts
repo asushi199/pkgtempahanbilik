@@ -19,6 +19,15 @@ function photoFile(formData: FormData): File | null {
   return null;
 }
 
+function parseAmenities(formData: FormData): string[] {
+  const preset = formData.getAll("amenities").map(String);
+  const custom = String(formData.get("amenities_custom") ?? "")
+    .split(/[\n,]/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  return Array.from(new Set([...preset, ...custom]));
+}
+
 async function ensureUniqueSlug(pkgId: string, base: string) {
   const existing = await listRooms(pkgId, true);
   const used = new Set(existing.map((room) => room.slug));
@@ -58,11 +67,13 @@ export async function createRoomAction(formData: FormData) {
     short_name: shortName,
     category,
     sort_order: sortOrder,
-    image_src: imageSrc
+    image_src: imageSrc,
+    amenities: parseAmenities(formData)
   });
 
   revalidatePath(base);
   revalidatePath(`/${pkgId}`);
+  revalidatePath(`/${pkgId}/bilik/${slug}`);
   redirect(`${base}?status=created`);
 }
 
@@ -93,11 +104,13 @@ export async function updateRoomAction(formData: FormData) {
     short_name: shortName,
     category,
     sort_order: sortOrder,
-    image_src: imageSrc
+    image_src: imageSrc,
+    amenities: parseAmenities(formData)
   });
 
   revalidatePath(base);
   revalidatePath(`/${pkgId}`);
+  revalidatePath(`/${pkgId}/bilik/${room.slug}`);
   redirect(`${base}?status=updated`);
 }
 

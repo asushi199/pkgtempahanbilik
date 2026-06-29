@@ -18,6 +18,7 @@ export type Room = {
   short_name: string;
   category: string;
   image_src: string | null;
+  amenities: string[];
   active: boolean;
   sort_order: number;
 };

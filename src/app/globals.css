@@ -524,6 +524,205 @@ select {
   line-height: 1;
 }
 
+/* ─── Room gallery (homepage) ─── */
+
+.roomGalleryGrid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  margin: 18px 0 24px;
+}
+
+.roomGalleryCard {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  color: inherit;
+  display: grid;
+  grid-template-rows: 180px 1fr;
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.roomGalleryCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card);
+}
+
+.roomGalleryImage {
+  background: var(--surface-soft);
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.roomGalleryImage.placeholder {
+  align-items: center;
+  color: var(--muted);
+  display: flex;
+  font-size: 0.8rem;
+  justify-content: center;
+  letter-spacing: 0.02em;
+}
+
+.roomGalleryBody {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.roomGalleryBody h2 {
+  font-size: 1.16rem;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.galleryCta {
+  margin-top: 4px;
+  text-align: center;
+}
+
+/* ─── Amenities (chips + detail list) ─── */
+
+.amenityRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.amenityChip {
+  align-items: center;
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  display: inline-flex;
+  font-size: 0.74rem;
+  font-weight: 650;
+  gap: 4px;
+  padding: 4px 10px;
+}
+
+.amenityChip--more {
+  color: var(--ink);
+}
+
+.roomDetailHero {
+  align-items: stretch;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  margin: 8px 0 20px;
+}
+
+.roomDetailImage {
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  height: 100%;
+  max-height: 360px;
+  min-height: 220px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.roomDetailImage.placeholder {
+  align-items: center;
+  color: var(--muted);
+  display: flex;
+  font-size: 0.85rem;
+  justify-content: center;
+}
+
+.roomDetailInfo {
+  display: grid;
+  gap: 10px;
+}
+
+.roomDetailInfo h1 {
+  margin: 0;
+}
+
+.amenityList h2 {
+  font-size: 1.02rem;
+  margin: 8px 0 8px;
+}
+
+.amenityList ul {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.amenityItem {
+  align-items: center;
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  display: flex;
+  font-size: 0.86rem;
+  font-weight: 600;
+  gap: 8px;
+  padding: 8px 10px;
+}
+
+.amenityIcon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.detailBackRow {
+  margin: 4px 0 12px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* ─── Amenity picker (admin form) ─── */
+
+.amenityPicker {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 12px 14px;
+}
+
+.amenityPicker legend {
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0 6px;
+}
+
+.amenityCheckGrid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+.amenityCheck {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  font-size: 0.84rem;
+  font-weight: 600;
+  gap: 8px;
+}
+
+.amenityCheck input {
+  width: auto;
+}
+
 /* ─── Workspace ─── */
 
 .workspace {
@@ -1449,6 +1648,15 @@ select option {
   .bookingCard {
     order: -1;
     position: static;
+  }
+
+  /* Embedded booking form (room detail) stays below the calendar. */
+  .bookingEmbedded {
+    order: 0;
+  }
+
+  .roomDetailHero {
+    grid-template-columns: 1fr;
   }
 }
 
