@@ -100,6 +100,12 @@ export default async function RoomDetailPage({
               <p className="muted">Tiada maklumat kemudahan.</p>
             )}
           </div>
+          <a className="primaryButton roomDetailCta" href="#tempah">
+            Tempah bilik ini
+            <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </a>
         </div>
       </section>
 

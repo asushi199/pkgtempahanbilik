@@ -774,6 +774,16 @@ select {
   margin: 4px 0 14px;
 }
 
+.roomDetailCta {
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.roomDetailCta svg {
+  height: 16px;
+  width: 16px;
+}
+
 .muted {
   color: var(--muted);
 }
