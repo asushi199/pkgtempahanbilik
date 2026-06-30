@@ -68,6 +68,27 @@ create index if not exists bookings_pending_contact_lookup_idx
   on public.bookings (pkg_id, contact_normalized, status)
   where status = 'pending';
 
+-- ---------- Attendance (kehadiran) ----------
+-- Two opaque tokens per booking, generated when a booking is approved:
+--   attendance_token        -> public registration page + QR (low sensitivity)
+--   attendance_manage_token -> organiser/admin list + CSV download (holds names+contacts)
+-- Kept separate so anyone who scans the QR cannot download the full attendee list.
+alter table public.bookings
+  add column if not exists attendance_token text,
+  add column if not exists attendance_manage_token text;
+
+create table if not exists public.attendees (
+  id uuid primary key default gen_random_uuid(),
+  pkg_id text not null references public.pkgs(id) on delete cascade,
+  booking_id uuid not null references public.bookings(id) on delete cascade,
+  name text not null,
+  contact text not null,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists attendees_booking_idx
+  on public.attendees (pkg_id, booking_id, created_at);
+
 -- ---------- Conflict prevention (scoped per PKG + room) ----------
 create or replace function public.prevent_booking_conflict()
 returns trigger
@@ -153,6 +174,7 @@ create table if not exists public.item_rentals (
 alter table public.pkgs enable row level security;
 alter table public.rooms enable row level security;
 alter table public.bookings enable row level security;
+alter table public.attendees enable row level security;
 alter table public.items enable row level security;
 alter table public.item_rentals enable row level security;
 

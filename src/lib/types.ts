@@ -42,6 +42,23 @@ export type Booking = {
   notified_at: string | null;
   notification_error: string | null;
   cancelled_at: string | null;
+  attendance_token: string | null;
+  attendance_manage_token: string | null;
+};
+
+export type Attendee = {
+  id: string;
+  pkg_id: string;
+  booking_id: string;
+  name: string;
+  contact: string;
+  created_at: string;
+};
+
+export type AttendanceFormState = {
+  ok: boolean;
+  message: string;
+  count?: number;
 };
 
 export type BookingFormState = {
@@ -68,6 +85,7 @@ export type CheckBookingResult = {
   purpose: string;
   status: string;
   whatsappUrl: string;
+  manageUrl?: string;
 };
 
 export type CheckBookingState = {

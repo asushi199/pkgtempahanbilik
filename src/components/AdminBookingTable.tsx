@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   approveBookingAction,
   cancelBookingAction,
@@ -103,13 +104,23 @@ export function AdminBookingTable({
                             ) : null}
 
                             {booking.status === "approved" ? (
-                              <form action={cancelBookingAction}>
-                                <input name="pkg" type="hidden" value={pkgId} />
-                                <input name="id" type="hidden" value={booking.id} />
-                                <button className="dangerButton" type="submit">
-                                  Batal
-                                </button>
-                              </form>
+                              <>
+                                {booking.attendance_manage_token ? (
+                                  <Link
+                                    className="ghostButton"
+                                    href={`/${pkgId}/urus-hadir/${booking.attendance_manage_token}`}
+                                  >
+                                    Urus kehadiran
+                                  </Link>
+                                ) : null}
+                                <form action={cancelBookingAction}>
+                                  <input name="pkg" type="hidden" value={pkgId} />
+                                  <input name="id" type="hidden" value={booking.id} />
+                                  <button className="dangerButton" type="submit">
+                                    Batal
+                                  </button>
+                                </form>
+                              </>
                             ) : null}
                           </div>
                         </div>

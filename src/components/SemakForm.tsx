@@ -45,7 +45,13 @@ export function SemakForm({ pkgId }: { pkgId: string }) {
         <div className="lookupResults">
           {state.bookings.map((booking) => (
             <article className="lookupResult" key={booking.id}>
-              <span className="statusBadge pendingBadge">{booking.status}</span>
+              <span
+                className={`statusBadge ${
+                  booking.status === "Diluluskan" ? "bookedBadge" : "pendingBadge"
+                }`}
+              >
+                {booking.status}
+              </span>
               <h3>{booking.purpose}</h3>
               <p>
                 {booking.date} - {booking.room} - {booking.slot}
@@ -53,6 +59,11 @@ export function SemakForm({ pkgId }: { pkgId: string }) {
               {booking.whatsappUrl ? (
                 <a className="whatsappButton fullWidth" href={booking.whatsappUrl} rel="noreferrer" target="_blank">
                   Hantar WhatsApp kepada admin
+                </a>
+              ) : null}
+              {booking.manageUrl ? (
+                <a className="primaryButton fullWidth" href={booking.manageUrl}>
+                  Urus kehadiran
                 </a>
               ) : null}
             </article>

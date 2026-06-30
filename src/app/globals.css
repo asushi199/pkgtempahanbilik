@@ -1605,6 +1605,49 @@ select option {
   margin: 0;
 }
 
+.attendanceQr {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  margin-top: 18px;
+  text-align: center;
+}
+
+.attendanceQr img {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+}
+
+.attendanceLink {
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  margin: 0;
+  padding: 10px 12px;
+  width: 100%;
+  word-break: break-all;
+}
+
+.attendanceList {
+  display: grid;
+  gap: 6px;
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.attendanceList li {
+  align-items: center;
+  border-bottom: 1px solid var(--line-soft);
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 8px 4px;
+}
+
 .inlineError {
   color: var(--danger) !important;
   font-weight: 700;

@@ -1,6 +1,12 @@
+import { randomBytes } from "crypto";
 import { getSupabaseAdmin } from "./supabase";
 import { normalizePhoneNumber } from "./phone";
-import type { Booking, BookingStatus, Pkg, Room, Slot } from "./types";
+import type { Attendee, Booking, BookingStatus, Pkg, Room, Slot } from "./types";
+
+/** Unguessable opaque token used for public attendance links (not hashed). */
+function generateAttendanceToken() {
+  return randomBytes(32).toString("base64url");
+}
 
 const notConfiguredMessage =
   "Supabase belum dikonfigurasi. Sila isi SUPABASE_URL dan SUPABASE_SERVICE_ROLE_KEY.";
@@ -273,9 +279,19 @@ export async function approveBooking(pkgId: string, id: string) {
   const supabase = getSupabaseAdmin();
   if (!supabase) throw new Error(notConfiguredMessage);
 
+  // Generate the attendance tokens on approval if not already present, so the
+  // booking gains a public registration link/QR and a separate manage link.
+  const existing = await getBooking(pkgId, id);
+
   const { error } = await supabase
     .from("bookings")
-    .update({ status: "approved", approved_at: new Date().toISOString(), rejected_at: null })
+    .update({
+      status: "approved",
+      approved_at: new Date().toISOString(),
+      rejected_at: null,
+      attendance_token: existing?.attendance_token ?? generateAttendanceToken(),
+      attendance_manage_token: existing?.attendance_manage_token ?? generateAttendanceToken()
+    })
     .eq("pkg_id", pkgId)
     .eq("id", id);
 
@@ -328,6 +344,97 @@ export async function listPendingBookingsByContact(
 
   if (error) throw new Error(error.message);
   return (data as Booking[]) ?? [];
+}
+
+export async function listApprovedBookingsByContact(
+  pkgId: string,
+  contact: string
+): Promise<Booking[]> {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("*")
+    .eq("pkg_id", pkgId)
+    .eq("status", "approved")
+    .eq("contact_normalized", normalizePhoneNumber(contact))
+    .order("date", { ascending: true })
+    .order("created_at", { ascending: true });
+
+  if (error) throw new Error(error.message);
+  return (data as Booking[]) ?? [];
+}
+
+// ---------- Attendance ----------
+
+export async function getBookingByAttendanceToken(
+  pkgId: string,
+  token: string
+): Promise<Booking | null> {
+  const supabase = getSupabaseAdmin();
+  if (!supabase || !token) return null;
+
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("*")
+    .eq("pkg_id", pkgId)
+    .eq("attendance_token", token)
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+  return (data as Booking) ?? null;
+}
+
+export async function getBookingByManageToken(
+  pkgId: string,
+  token: string
+): Promise<Booking | null> {
+  const supabase = getSupabaseAdmin();
+  if (!supabase || !token) return null;
+
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("*")
+    .eq("pkg_id", pkgId)
+    .eq("attendance_manage_token", token)
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+  return (data as Booking) ?? null;
+}
+
+export async function addAttendee(
+  pkgId: string,
+  bookingId: string,
+  input: { name: string; contact: string }
+): Promise<Attendee> {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) throw new Error(notConfiguredMessage);
+
+  const { data, error } = await supabase
+    .from("attendees")
+    .insert({ pkg_id: pkgId, booking_id: bookingId, name: input.name, contact: input.contact })
+    .select("*")
+    .single();
+
+  if (error) throw new Error(error.message);
+  return data as Attendee;
+}
+
+export async function listAttendees(pkgId: string, bookingId: string): Promise<Attendee[]> {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
+    .from("attendees")
+    .select("*")
+    .eq("pkg_id", pkgId)
+    .eq("booking_id", bookingId)
+    .order("created_at", { ascending: true });
+
+  if (error) throw new Error(error.message);
+  return (data as Attendee[]) ?? [];
 }
 
 export async function updateApprovalTokenHash(

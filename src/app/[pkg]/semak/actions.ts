@@ -8,7 +8,12 @@ import { formatMalayDate } from "../../../lib/date";
 import { requiredText } from "../../../lib/form";
 import { loadPkg } from "../../../lib/pkg";
 import { normalizePhoneNumber } from "../../../lib/phone";
-import { listPendingBookingsByContact, listRooms, updateApprovalTokenHash } from "../../../lib/repository";
+import {
+  listApprovedBookingsByContact,
+  listPendingBookingsByContact,
+  listRooms,
+  updateApprovalTokenHash
+} from "../../../lib/repository";
 import type { CheckBookingState } from "../../../lib/types";
 import { buildWhatsAppShareUrl } from "../../../lib/whatsapp";
 
@@ -29,24 +34,25 @@ export async function checkBookingAction(
   }
 
   try {
-    const [bookings, rooms] = await Promise.all([
+    const [pendingBookings, approvedBookings, rooms] = await Promise.all([
       listPendingBookingsByContact(pkgId, contact),
+      listApprovedBookingsByContact(pkgId, contact),
       listRooms(pkgId, true)
     ]);
     const adminPhone = pkg.whatsapp_admin_phone?.trim() || "";
 
-    if (bookings.length === 0) {
+    if (pendingBookings.length === 0 && approvedBookings.length === 0) {
       return {
         ok: true,
-        message: "Tiada permohonan yang masih menunggu kelulusan untuk nombor ini.",
+        message: "Tiada permohonan yang ditemui untuk nombor ini.",
         bookings: []
       };
     }
 
     const baseUrl = resolveAppBaseUrl(process.env.APP_BASE_URL, headers());
 
-    const results = await Promise.all(
-      bookings.map(async (booking) => {
+    const pendingResults = await Promise.all(
+      pendingBookings.map(async (booking) => {
         const { token, hash } = await createApprovalToken(booking.id);
         await updateApprovalTokenHash(pkgId, booking.id, hash);
         const approvalUrl = `${baseUrl}/${pkgId}/approve/${booking.id}?token=${encodeURIComponent(token)}`;
@@ -72,12 +78,23 @@ export async function checkBookingAction(
       })
     );
 
+    const approvedResults = approvedBookings.map((booking) => ({
+      id: booking.id,
+      date: formatMalayDate(booking.date),
+      room: formatRoom(rooms, booking.room_slug),
+      slot: formatSlot(booking.slot),
+      purpose: booking.purpose,
+      status: "Diluluskan",
+      whatsappUrl: "",
+      manageUrl: booking.attendance_manage_token
+        ? `${baseUrl}/${pkgId}/urus-hadir/${booking.attendance_manage_token}`
+        : undefined
+    }));
+
     return {
       ok: true,
-      message: adminPhone
-        ? "Permohonan dijumpai. Klik butang WhatsApp untuk hantar semula kepada admin."
-        : "Permohonan dijumpai, tetapi nombor WhatsApp admin belum ditetapkan.",
-      bookings: results
+      message: "Permohonan dijumpai. Untuk mesyuarat yang diluluskan, klik 'Urus kehadiran'.",
+      bookings: [...pendingResults, ...approvedResults]
     };
   } catch (error) {
     return {
