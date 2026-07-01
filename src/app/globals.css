@@ -320,6 +320,17 @@ select {
   box-shadow: none;
 }
 
+.exportButton {
+  flex: 0 0 auto;
+  gap: 7px;
+}
+
+.exportButton svg {
+  flex: 0 0 auto;
+  height: 16px;
+  width: 16px;
+}
+
 .whatsappButton {
   background: linear-gradient(135deg, #25d366, #12b85c);
   color: #fff;
@@ -2012,6 +2023,23 @@ select option {
   .adminActions .dangerButton {
     min-height: 36px !important;
     width: 100%;
+  }
+
+  .exportButton {
+    border-radius: 999px;
+    height: var(--control-h);
+    padding: 0;
+    width: var(--control-h);
+  }
+
+  .exportButton .btnLabel {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
   }
 }
 

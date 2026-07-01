@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import Link from "next/link";
 import QRCode from "qrcode";
+import { ExportCsvButton } from "../../../../components/ExportCsvButton";
 import { resolveAppBaseUrl } from "../../../../lib/app-url";
 import { formatRoom, formatSlot } from "../../../../lib/booking-rules";
 import { formatMalayDate } from "../../../../lib/date";
@@ -69,11 +70,7 @@ export default async function ManageAttendancePage({
 
         <div className="formTitleRow">
           <h2>Senarai Kehadiran ({attendees.length})</h2>
-          {attendees.length > 0 ? (
-            <a className="primaryButton" download href={exportUrl}>
-              Muat turun CSV
-            </a>
-          ) : null}
+          {attendees.length > 0 ? <ExportCsvButton href={exportUrl} /> : null}
         </div>
 
         {attendees.length === 0 ? (

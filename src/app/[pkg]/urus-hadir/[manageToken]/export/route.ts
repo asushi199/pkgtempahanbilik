@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import { getBookingByManageToken, listAttendees } from "../../../../../lib/repository";
+import { formatRoom, formatSlot } from "../../../../../lib/booking-rules";
+import { formatMalayDate } from "../../../../../lib/date";
+import { getBookingByManageToken, listAttendees, listRooms } from "../../../../../lib/repository";
 
 /** Wraps a CSV field, escaping quotes and forcing text so Excel keeps the value intact. */
 function csvField(value: string) {
@@ -25,9 +27,17 @@ export async function GET(
     return new NextResponse("Pautan tidak sah.", { status: 404 });
   }
 
-  const attendees = await listAttendees(params.pkg, booking.id);
+  const [attendees, rooms] = await Promise.all([
+    listAttendees(params.pkg, booking.id),
+    listRooms(params.pkg, true)
+  ]);
 
   const rows = [
+    ["Nama Mesyuarat", booking.purpose],
+    ["Bilik", formatRoom(rooms, booking.room_slug)],
+    ["Tarikh", formatMalayDate(booking.date)],
+    ["Masa", formatSlot(booking.slot)],
+    [],
     ["Bil", "Nama", "Telefon / Emel", "Masa daftar"],
     ...attendees.map((attendee, index) => [
       String(index + 1),
