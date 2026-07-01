@@ -321,14 +321,27 @@ select {
 }
 
 .exportButton {
+  border-radius: 999px;
   flex: 0 0 auto;
-  gap: 7px;
+  height: var(--control-h);
+  padding: 0;
+  width: var(--control-h);
 }
 
 .exportButton svg {
   flex: 0 0 auto;
-  height: 16px;
-  width: 16px;
+  height: 17px;
+  width: 17px;
+}
+
+.exportButton .btnLabel {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
 
 .whatsappButton {
@@ -2023,23 +2036,6 @@ select option {
   .adminActions .dangerButton {
     min-height: 36px !important;
     width: 100%;
-  }
-
-  .exportButton {
-    border-radius: 999px;
-    height: var(--control-h);
-    padding: 0;
-    width: var(--control-h);
-  }
-
-  .exportButton .btnLabel {
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    height: 1px;
-    overflow: hidden;
-    position: absolute;
-    white-space: nowrap;
-    width: 1px;
   }
 }
 
