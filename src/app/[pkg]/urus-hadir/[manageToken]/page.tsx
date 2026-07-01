@@ -68,8 +68,11 @@ export default async function ManageAttendancePage({
           </a>
         </div>
 
-        <div className="formTitleRow">
-          <h2>Senarai Kehadiran ({attendees.length})</h2>
+        <div className="attendanceHead">
+          <h2 className="attendanceHeadTitle">
+            Senarai Kehadiran
+            <span className="attendanceCount">{attendees.length}</span>
+          </h2>
           {attendees.length > 0 ? <ExportCsvButton href={exportUrl} /> : null}
         </div>
 
